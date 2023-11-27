@@ -1,1 +1,89 @@
 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int validarPlaca(char *placa) {
+    int len = strlen(placa);
+
+    if ((len == 8 || len == 7) && isalpha(placa[0]) && isalpha(placa[1]) && isalpha(placa[2]) &&
+        (placa[3] == '-' || len == 7) && isdigit(placa[4]) && isdigit(placa[5]) && isdigit(placa[6]) && isdigit(placa[7])) {
+        return 1;
+    }
+
+    return 0;
+}
+
+void toUpperCase(char *str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = toupper(str[i]);
+    }
+}
+
+int main() {
+    char placa[10], diaSemana[20];
+
+    printf("Digite a placa do veiculo: ");
+    scanf("%s", placa);
+
+    if (!validarPlaca(placa)) {
+        printf("Placa invalida\n");
+        return 1;
+    }
+
+    printf("Digite o dia da semana: ");
+    scanf("%s", diaSemana);
+    toUpperCase(diaSemana);
+
+    if (strncasecmp(diaSemana, "SEGUNDA-FEIRA", 20) == 0 ||
+        strncasecmp(diaSemana, "TERCA-FEIRA", 20) == 0 ||
+        strncasecmp(diaSemana, "QUARTA-FEIRA", 20) == 0 ||
+        strncasecmp(diaSemana, "QUINTA-FEIRA", 20) == 0 ||
+        strncasecmp(diaSemana, "SEXTA-FEIRA", 20) == 0 ||
+        strncasecmp(diaSemana, "SABADO", 20) == 0 ||
+        strncasecmp(diaSemana, "DOMINGO", 20) == 0) {
+
+        int ultimoDigito = placa[strlen(placa) - 1] - '0';
+
+        switch (ultimoDigito) {
+            case 0:
+            case 1:
+            case 8:
+            case 9:
+                if (strncasecmp(diaSemana, "SEGUNDA-FEIRA", 20) == 0 || strncasecmp(diaSemana, "SEXTA-FEIRA", 20) == 0) {
+                    printf("Pode circular.\n");
+                } else {
+                    printf("Nao pode circular.\n");
+                }
+                break;
+            case 2:
+            case 3:
+                if (strncasecmp(diaSemana, "TERCA-FEIRA", 20) == 0) {
+                    printf("Pode circular.\n");
+                } else {
+                    printf("Nao pode circular.\n");
+                }
+                break;
+            case 4:
+            case 5:
+                if (strncasecmp(diaSemana, "QUARTA-FEIRA", 20) == 0) {
+                    printf("Pode circular.\n");
+                } else {
+                    printf("Nao pode circular.\n");
+                }
+                break;
+            case 6:
+            case 7:
+                if (strncasecmp(diaSemana, "QUINTA-FEIRA", 20) == 0) {
+                    printf("Pode circular.\n");
+                } else {
+                    printf("Nao pode circular.\n");
+                }
+                break;
+        }
+    } else {
+        printf("Dia da semana invalido.\n");
+    }
+
+    return 0;
+}
